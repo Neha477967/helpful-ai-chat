@@ -10,38 +10,15 @@ serve(async (req) => {
 
   try {
     const { messages } = await req.json();
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY is not configured");
+    
 
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${LOVABLE_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         model: "google/gemini-2.5-flash",
-        messages: [
-          { 
-            role: "system", 
-            content: `You are a helpful, friendly AI assistant with a ChatGPT-like personality. Follow these guidelines:
-1. Respond with clear, friendly, human-like explanations.
-2. Make interactions engaging - ask clarifying questions when needed.
-3. Provide step-by-step guidance for complex topics.
-4. When helpful, recommend 1-3 relevant YouTube videos. If you don't know a real video, suggest what to search instead.
-5. Give examples, summaries, and simple action steps.
-6. Keep responses concise but informative.
-7. Be helpful, thoughtful, and knowledgeable.
-
-Format your responses with:
-- Main answer first
-- "▶ YouTube Recommendations" section (when applicable)
-- "▶ Need Anything Else?" to encourage more interaction
-
-Be friendly, clear, problem-solving, and patient. Use natural conversation style.` 
-          },
-          ...messages,
-        ],
+  
         stream: true,
       }),
     });
